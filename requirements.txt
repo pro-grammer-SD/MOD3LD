@@ -2,8 +2,8 @@ fastapi
 uvicorn
 streamlit
 torch==2.3.1
+torchvision
 hy3dgen
 trimesh
 safetensors
 requests
-ad
