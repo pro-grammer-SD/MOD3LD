@@ -1,0 +1,7 @@
+streamlit
+torch==2.3.1
+torchvision
+trimesh
+safetensors
+hy3dgen
+pymeshlab
