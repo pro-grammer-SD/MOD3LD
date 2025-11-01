@@ -4,5 +4,7 @@ torchvision
 trimesh
 safetensors
 hy3dgen
-pymeshlab
 streamlit-stl
+pymeshlab
+opencv-python-headless
+numpy

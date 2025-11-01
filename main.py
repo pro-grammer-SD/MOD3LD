@@ -1,5 +1,6 @@
 import os
 os.environ["HY3DGEN_NO_MESH_CLEANUP"] = "1"
+os.environ["OPENCV_IO_ENABLE_OPENEXR"] = "1"
 
 import streamlit as st
 import torch, tempfile
@@ -18,8 +19,8 @@ def load_pipe():
         use_safetensors=True
     ).to("cpu")
     pipe.to(dtype=torch.float32)
-    torch.set_num_threads(8)
-    torch.set_num_interop_threads(8)
+    torch.set_num_threads(4)
+    torch.set_num_interop_threads(4)
     return pipe
 
 pipe = load_pipe()
@@ -35,7 +36,7 @@ if file:
                 mesh = pipe(
                     image=tmp.name,
                     num_inference_steps=10,
-                    octree_resolution=256,
+                    octree_resolution=128,
                     output_type="trimesh"
                 )[0]
                 out_path = "model.stl"
