@@ -1,6 +1,9 @@
+import os
+os.environ["HY3DGEN_NO_MESH_CLEANUP"] = "1"
+
 import streamlit as st
-import torch, tempfile, os
-from hy3dgen.shapegen import Hunyuan3DDiTFlowMatchingPipeline
+import torch, tempfile
+from hy3dgen.shapegen.pipelines import Hunyuan3DDiTFlowMatchingPipeline
 import trimesh
 from streamlit_stl import stl_from_file
 
@@ -39,7 +42,8 @@ if file:
                 mesh.export(out_path)
 
             st.success("✅ 3D model generated!")
-            st.download_button("⬇️ Download model.stl", open(out_path, "rb"), file_name="model.stl")
+            with open(out_path, "rb") as f:
+                st.download_button("⬇️ Download model.stl", f, file_name="model.stl")
 
             st.subheader("🧩 3D Model Preview")
             stl_from_file(
