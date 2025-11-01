@@ -2,6 +2,7 @@ import streamlit as st
 import torch, tempfile, os
 from hy3dgen.shapegen import Hunyuan3DDiTFlowMatchingPipeline
 import trimesh
+from streamlit_stl import stl_from_file
 
 st.set_page_config(page_title="Hunyuan3D Generator", layout="centered")
 st.title("🌀 Hunyuan3D Web UI")
@@ -34,8 +35,23 @@ if file:
                     octree_resolution=256,
                     output_type="trimesh"
                 )[0]
-                out_path = "model.glb"
+                out_path = "model.stl"
                 mesh.export(out_path)
-            with open(out_path, "rb") as f:
-                st.download_button("⬇️ Download model.glb", f, file_name="model.glb")
-                
+
+            st.success("✅ 3D model generated!")
+            st.download_button("⬇️ Download model.stl", open(out_path, "rb"), file_name="model.stl")
+
+            st.subheader("🧩 3D Model Preview")
+            stl_from_file(
+                file_path=out_path,
+                color="#FF9900",
+                material="material",
+                auto_rotate=True,
+                opacity=1,
+                shininess=100,
+                cam_v_angle=60,
+                cam_h_angle=-90,
+                height=500,
+                max_view_distance=1000,
+            )
+            

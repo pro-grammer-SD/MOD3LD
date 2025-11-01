@@ -5,3 +5,4 @@ trimesh
 safetensors
 hy3dgen
 pymeshlab
+streamlit-stl
