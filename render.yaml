@@ -1,6 +1,9 @@
 services:
   - type: web
-    name: hunyuan3d-mini
+    name: mod3d
     env: docker
     plan: free
     autoDeploy: true
+    ports:
+      - 8080
+      - 8501
