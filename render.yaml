@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: hunyuan3d-mini
+    env: docker
+    plan: free
+    autoDeploy: true
