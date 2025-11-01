@@ -1,24 +1,14 @@
-import os, psutil, shutil, tempfile, torch, streamlit as st
+import os
+os.environ["HY3DGEN_NO_MESH_CLEANUP"] = "1"
+
+import streamlit as st
+import torch, tempfile
 from hy3dgen.shapegen.pipelines import Hunyuan3DDiTFlowMatchingPipeline
 import trimesh
 from streamlit_stl import stl_from_file
 
-os.environ["HY3DGEN_NO_MESH_CLEANUP"] = "1"
-
 st.set_page_config(page_title="Hunyuan3D Generator", layout="centered")
 st.title("🌀 Hunyuan3D Web UI")
-
-total_ram = round(psutil.virtual_memory().total / (1024 ** 3), 2)
-used_ram = round(psutil.virtual_memory().used / (1024 ** 3), 2)
-disk_total = round(shutil.disk_usage("/").total / (1024 ** 3), 2)
-disk_free = round(shutil.disk_usage("/").free / (1024 ** 3), 2)
-cpu_cores = os.cpu_count()
-
-st.sidebar.header("🧠 System Info")
-st.sidebar.markdown(f"**CPU Cores:** {cpu_cores}")
-st.sidebar.markdown(f"**RAM:** {used_ram} GB / {total_ram} GB")
-st.sidebar.markdown(f"**Storage Free:** {disk_free} GB / {disk_total} GB")
-st.sidebar.markdown(f"**Torch Device:** {'CUDA' if torch.cuda.is_available() else 'CPU'}")
 
 @st.cache_resource
 def load_pipe():
@@ -26,8 +16,8 @@ def load_pipe():
         "tencent/Hunyuan3D-2mini",
         subfolder="hunyuan3d-dit-v2-mini-turbo",
         use_safetensors=True
-    ).to("cuda" if torch.cuda.is_available() else "cpu")
-    pipe.to(dtype=torch.float16 if torch.cuda.is_available() else torch.float32)
+    ).to("cpu")
+    pipe.to(dtype=torch.float16)
     torch.set_num_threads(8)
     torch.set_num_interop_threads(8)
     return pipe
