@@ -6,5 +6,6 @@ safetensors
 hy3dgen
 streamlit-stl
 pymeshlab
+plotly
 opencv-python-headless
 numpy
